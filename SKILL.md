@@ -13,6 +13,14 @@ description: 通过 Kairusi MCP 统一管理日刻日记、Todo 任务和日历�
 
 如果工具提示授权缺失、会话失效或登录失效，要求用户重新访问授权页并替换其 MCP 配置。不要自动重试写入操作，也不要把任何凭证放入对话、日志或文件。
 
+## 随包命令行客户端
+
+当当前 AI 应用不能直接添加 MCP，或需要从终端调用服务时，优先使用 `scripts/kairusi_mcp.py`，不要绕过统一服务直接调用日刻、Todo 或日历内部 API。脚本需要 Python 3，不需要安装第三方依赖。
+
+1. 要求用户先在授权页生成 MCP 配置，再在本地终端运行 `python3 scripts/kairusi_mcp.py configure`。Token 输入不会回显，并仅保存在 `~/.config/kairusi-skill/token`；脚本不会打印 Token。
+2. 调用 `python3 scripts/kairusi_mcp.py list-tools` 验证授权，并按需要使用 `call --tool <工具名> --arguments '<JSON对象>'`。
+3. 具体命令示例读取 `references/api-commands.md`。不要在命令历史、配置仓库或对话中粘贴 Token。
+
 ## 选择正确产品
 
 | 用户目标 | 产品与工具前缀 | 推荐顺序 |
@@ -46,12 +54,4 @@ description: 通过 Kairusi MCP 统一管理日刻日记、Todo 任务和日历�
 
 仅在用户明确要求时跨产品复制信息。例如，用户可要求“把这个任务排进日历”或“按今天日程写一篇日记”。先读取源对象，再说明将写入目标产品的摘要；默认不要复制私密日记正文、备注或附件。
 
-## 工具与字段速查
-
-| 产品 | 读取工具 | 写入工具 | 删除工具 |
-|---|---|---|---|
-| 日刻 | `rike_list_resources`、`rike_list_notes`、`rike_get_note_detail` | `rike_create_note`、`rike_update_note` | `rike_delete_note` |
-| Todo | `todo_list_projects`、`todo_list_tasks`、`todo_search_tasks` | `todo_create_task`、`todo_update_task`、`todo_set_task_completed` | `todo_delete_task` |
-| 日历 | `calendar_list_calendars`、`calendar_list_events`、`calendar_search_events` | `calendar_create_event`、`calendar_update_event` | `calendar_delete_event` |
-
-日历工具仅向 `can_write: true` 的日历写入。Todo 写入前需要目标 `list_uuid`；日刻创建前需要从资源工具取得准确 UUID。所有删除工具都必须在用户明确确认后传入 `confirmed: true`。
+需要核对完整工具、字段和权限语义时，读取 `references/product-mapping.md`；需要执行脚本命令示例时，读取 `references/api-commands.md`。
