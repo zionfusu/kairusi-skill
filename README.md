@@ -40,7 +40,7 @@ python3 scripts/kairusi_mcp.py list-tools
 python3 scripts/kairusi_mcp.py call --tool calendar_list_calendars --arguments '{}'
 ```
 
-在 `configure` 过程中，从授权页 MCP 配置中复制 Bearer Token。输入不会回显，Token 仅保存在 `~/.config/kairusi-skill/token`，Unix 系统下文件权限为仅当前用户可读写。
+在 `configure` 过程中，从授权页 MCP 配置中复制 Bearer Token。输入不会回显，Token 仅保存在 `~/.config/kairusi-skill/token`，Unix 系统下文件权限为仅当前用户可读写。统一 Kairusi Token 默认有效期为 30 天；若到期，或日刻、Todo、日历中任一产品的登录会话提前失效，请重新访问授权页生成并配置新的 Token。
 
 > 不要把密码、Bearer Token、产品 Session ID 或包含这些信息的终端截图发送给任何人。
 
