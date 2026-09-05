@@ -28,7 +28,7 @@
 
 先用 `calendar_list_calendars` 获取日历 UUID 与 `can_write` 权限。仅当 `can_write` 为 true 时才可写入。读取或搜索日程使用 `calendar_list_events` 和 `calendar_search_events`；创建和修改使用 `calendar_create_event`、`calendar_update_event`。删除使用 `calendar_delete_event`，必须先核对目标标题和开始时间，再取得用户明确确认。
 
-日程范围查询使用 UTC ISO 8601 时间，并传入用户的 IANA 时区。创建和更新工具同样接收 IANA 时区名称；MCP 转换层必须把它转换为旧日历 API 约定的时区对象，不能把 `Asia/Shanghai` 之类的字符串直接写入 `startDateZone` 或 `endDateZone`。个人日历、公共日历、所有者或参与者身份本身不等同于写入权限。
+日程范围查询使用 UTC ISO 8601 时间，并按接口约定把用户的 IANA 时区作为 `zone` 传入。日程新增、修改和删除统一调用 `POST /event/commit`，通过 `op_type` 区分操作，并使用 `uuid`、`calendarId`、`startDate`、`endDate` 等 camelCase 字段。创建和更新工具接收 IANA 时区名称；MCP 转换层必须把它转换为旧日历 API 约定的时区对象，不能把裸字符串直接写入 `startDateZone` 或 `endDateZone`。新增提交后必须通过 `event/get_events` 回查相同 UUID，确认事件真实存在后才可报告成功。接口依据：[新建/编辑/删除日程](https://docapi.kairusi.com/web/#/12/528)、[我的日程列表-pc](https://docapi.kairusi.com/web/#/12/577)。个人日历、公共日历、所有者或参与者身份本身不等同于写入权限。
 
 ## 统一安全规则
 

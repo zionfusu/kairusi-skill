@@ -85,6 +85,7 @@ python3 scripts/kairusi_mcp.py call --tool calendar_search_events --arguments '{
 
 # 创建日程。目标日历必须 can_write=true；时间使用 UTC ISO 8601。
 # 时区参数使用 IANA 名称；MCP 会将其转换为旧日历 API 要求的时区对象，禁止原样写入数据库。
+# MCP 按官方 event/commit 契约提交，并通过 event/get_events 回查相同 UUID；回查不到时不会报告成功。
 python3 scripts/kairusi_mcp.py call --tool calendar_create_event --arguments '{
   "title": "项目评审",
   "calendar_uuid": "<日历UUID>",

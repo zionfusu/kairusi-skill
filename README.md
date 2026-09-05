@@ -84,7 +84,7 @@ Kairusi Skill 只在用户主动授权后访问数据。Token 存在用户本地
 
 ## 1.2.1 升级说明
 
-修复日历创建日程使用了错误端点和字段而产生“假成功”的问题。MCP 现在调用日历服务真实的 `event/add` 接口，并且只有取得数据库返回的真实日程 ID 后才会报告成功。
+修复日历创建日程“假成功”的问题。MCP 严格按照接口文档调用统一的 `event/commit`，并使用 `op_type`、`uuid`、`calendarId`、`startDate`、`endDate` 等约定字段；提交后通过 `event/get_events` 回查相同 UUID，只有实际查到新日程才会报告成功。
 
 ## 1.2.0 升级说明
 
