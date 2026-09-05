@@ -66,7 +66,11 @@ python3 scripts/kairusi_mcp.py call --tool todo_create_list --arguments '{
 # 搜索任务
 python3 scripts/kairusi_mcp.py call --tool todo_search_tasks --arguments '{"keyword": "项目规划"}'
 
-# 用户未指定清单时省略 list_uuid，MCP 会自动写入该用户的系统“收件箱”。
+# 系统“收件箱”固定存在，禁止新建。需要查看其 UUID 与默认统计时：
+python3 scripts/kairusi_mcp.py call --tool todo_get_default_lists --arguments '{}'
+
+# 用户未指定清单时省略 list_uuid，MCP 会通过 project/get_default_pc 的 data.sjx
+# 自动写入该用户的系统“收件箱”，不会创建替代清单。
 python3 scripts/kairusi_mcp.py call --tool todo_create_task --arguments '{
   "title": "整理项目计划",
   "belong_date": "2026-08-26",

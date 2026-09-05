@@ -18,9 +18,9 @@
 
 ## Todo
 
-先用 `todo_list_projects` 获取文件夹与清单结构。创建文件夹使用 `todo_create_folder`，返回的 `folder_uuid` 可用于后续创建清单；创建清单使用 `todo_create_list`，必须提供 `image_url` 图标 ID，可选传入 `folder_uuid`、`review_freq` 和 `next_review_date`。不要把文件夹 UUID 当成任务所需的清单 UUID。
+先用 `todo_list_projects` 获取文件夹与清单结构。系统“收件箱”固定存在，使用 `todo_get_default_lists` 调用 `POST project/get_default_pc`，从响应 `data.sjx` 取得并规范化为 `inbox.list_uuid`，同时返回其余今日、已计划、已完成、已标注等统计。绝不创建“收件箱”或替代收件箱；`todo_create_list` 也会在调用上游前拒绝该名称。创建文件夹使用 `todo_create_folder`，返回的 `folder_uuid` 可用于后续创建普通清单；创建普通清单使用 `todo_create_list`，必须提供 `image_url` 图标 ID，可选传入 `folder_uuid`、`review_freq` 和 `next_review_date`。不要把文件夹 UUID 当成任务所需的清单 UUID。
 
-读取任务使用 `todo_list_tasks` 或 `todo_search_tasks`；创建和修改任务使用 `todo_create_task`、`todo_update_task`。创建任务时 `list_uuid` 可选：用户未指定清单时必须省略，由 MCP 从 `todo_list_projects` 的真实结果中定位名称为“收件箱”的系统清单并写入；不得使用固定或猜测的 UUID。写任务前用 `todo_list_labels` 获取真实标签 UUID，再把场景匹配结果作为 `label_uuids` 传入；更新时该字段表示完整替换列表。完成状态使用 `todo_set_task_completed`。删除使用 `todo_delete_task`，必须在用户明确确认后设置 `confirmed: true`。
+读取任务使用 `todo_list_tasks` 或 `todo_search_tasks`；创建和修改任务使用 `todo_create_task`、`todo_update_task`。创建任务时 `list_uuid` 可选：用户未指定清单时必须省略，由 MCP 调用 `project/get_default_pc` 并从 `data.sjx` 使用系统收件箱的真实 UUID；不得使用普通清单列表猜测、固定 UUID或创建替代清单。写任务前用 `todo_list_labels` 获取真实标签 UUID，再把场景匹配结果作为 `label_uuids` 传入；更新时该字段表示完整替换列表。完成状态使用 `todo_set_task_completed`。删除使用 `todo_delete_task`，必须在用户明确确认后设置 `confirmed: true`。
 
 标签仅通过 `todo_list_labels` 读取，对应 `POST /label/get_label_list`，返回一级标签及其 `list` 二级标签。Skill 只能从这些已有标签中选择 UUID 并绑定到任务，不提供标签新增、修改或删除能力。接口依据：[标签列表](https://docapi.kairusi.com/web/#/10/410)。
 
