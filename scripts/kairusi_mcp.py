@@ -98,7 +98,7 @@ def initialize(token: str, server: str) -> str:
         "params": {
             "protocolVersion": "2025-03-26",
             "capabilities": {},
-            "clientInfo": {"name": "kairusi-skill", "version": "1.0.0"},
+            "clientInfo": {"name": "kairusi-skill", "version": "1.2.0"},
         },
     }, token)
     if "error" in response:

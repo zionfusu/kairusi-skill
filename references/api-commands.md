@@ -48,14 +48,29 @@ python3 scripts/kairusi_mcp.py call --tool rike_create_note --arguments '{
 # 读取项目、文件夹和清单
 python3 scripts/kairusi_mcp.py call --tool todo_list_projects --arguments '{}'
 
+# 读取现有标签；创建任务前用返回的 UUID 做场景匹配
+python3 scripts/kairusi_mcp.py call --tool todo_list_labels --arguments '{}'
+
+# 创建文件夹
+python3 scripts/kairusi_mcp.py call --tool todo_create_folder --arguments '{
+  "name": "工作"
+}'
+
+# 创建清单。image_url 是 Todo 清单图标 ID；放入文件夹时替换 folder_uuid。
+python3 scripts/kairusi_mcp.py call --tool todo_create_list --arguments '{
+  "name": "本周任务",
+  "image_url": "<图标ID>",
+  "folder_uuid": "<文件夹UUID>"
+}'
+
 # 搜索任务
 python3 scripts/kairusi_mcp.py call --tool todo_search_tasks --arguments '{"keyword": "项目规划"}'
 
-# 在指定清单创建任务。请先替换 list_uuid。
+# 用户未指定清单时省略 list_uuid，MCP 会自动写入该用户的系统“收件箱”。
 python3 scripts/kairusi_mcp.py call --tool todo_create_task --arguments '{
   "title": "整理项目计划",
-  "list_uuid": "<清单UUID>",
-  "belong_date": "2026-08-26"
+  "belong_date": "2026-08-26",
+  "label_uuids": ["<匹配出的标签UUID>"]
 }'
 ```
 
@@ -69,6 +84,7 @@ python3 scripts/kairusi_mcp.py call --tool calendar_list_calendars --arguments '
 python3 scripts/kairusi_mcp.py call --tool calendar_search_events --arguments '{"keyword": "项目"}'
 
 # 创建日程。目标日历必须 can_write=true；时间使用 UTC ISO 8601。
+# 时区参数使用 IANA 名称；MCP 会将其转换为旧日历 API 要求的时区对象，禁止原样写入数据库。
 python3 scripts/kairusi_mcp.py call --tool calendar_create_event --arguments '{
   "title": "项目评审",
   "calendar_uuid": "<日历UUID>",
