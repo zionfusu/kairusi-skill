@@ -17,6 +17,7 @@ from urllib.error import HTTPError, URLError
 from urllib.request import Request, urlopen
 
 DEFAULT_SERVER = "https://mcp.kairusi.com/mcp"
+SKILL_VERSION = "1.2.2"
 CONFIG_DIR = Path(os.environ.get("KAIRUSI_SKILL_HOME", "~/.config/kairusi-skill")).expanduser()
 TOKEN_FILE = CONFIG_DIR / "token"
 SERVER_FILE = CONFIG_DIR / "server"
@@ -62,6 +63,7 @@ def http_json(url: str, body: dict[str, Any], token: str, session_id: str | None
         "Content-Type": "application/json",
         "Accept": "application/json, text/event-stream",
         "Authorization": f"Bearer {token}",
+        "X-Kairusi-Skill-Version": SKILL_VERSION,
     }
     if session_id:
         headers["Mcp-Session-Id"] = session_id
@@ -98,7 +100,7 @@ def initialize(token: str, server: str) -> str:
         "params": {
             "protocolVersion": "2025-03-26",
             "capabilities": {},
-            "clientInfo": {"name": "kairusi-skill", "version": "1.2.1"},
+            "clientInfo": {"name": "kairusi-skill", "version": SKILL_VERSION},
         },
     }, token)
     if "error" in response:
@@ -140,7 +142,7 @@ def status(_: argparse.Namespace) -> None:
         print(json.dumps({"ok": False, "authorized": False, "server": DEFAULT_SERVER}, ensure_ascii=False))
         return
     server = SERVER_FILE.read_text(encoding="utf-8").strip() if SERVER_FILE.exists() else DEFAULT_SERVER
-    print(json.dumps({"ok": True, "authorized": True, "server": server, "token": "已保存，不显示"}, ensure_ascii=False))
+    print(json.dumps({"ok": True, "authorized": True, "server": server, "skill_version": SKILL_VERSION, "token": "已保存，不显示"}, ensure_ascii=False))
 
 
 def main() -> None:

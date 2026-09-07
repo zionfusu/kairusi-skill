@@ -10,6 +10,7 @@
 python3 scripts/kairusi_mcp.py configure
 python3 scripts/kairusi_mcp.py status
 python3 scripts/kairusi_mcp.py list-tools
+python3 scripts/kairusi_mcp.py call --tool kairusi_get_version --arguments '{"skill_version":"1.2.2"}'
 ```
 
 `configure` 会以不回显方式接收 Token，并保存到 `~/.config/kairusi-skill/token`。不要使用 `--token` 参数、环境变量、Shell 历史或聊天消息传递 Token。
@@ -38,7 +39,7 @@ python3 scripts/kairusi_mcp.py call --tool rike_create_note --arguments '{
   "notebook_uuid": "<日记本UUID>",
   "template_uuid": "<模板UUID>",
   "day": "2026-08-26",
-  "cells": [{"content": "今天完成了项目规划", "order_by": 1}]
+  "cells": [{"title": "今日记录", "content": "今天完成了项目规划", "order_by": 1}]
 }'
 ```
 

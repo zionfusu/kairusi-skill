@@ -14,7 +14,7 @@
 
 ## 日刻
 
-先用 `rike_list_resources` 获取日记本、模板和标签 UUID。日记单元格包含内容和从 1 开始的排序；更新日记时保留现有单元格 UUID。写入 `note/commit` 时，`childs` 必须是 JSON 字符串，其中每项包含 `note_child_uuid`、`note_uuid`、`order_by`、`content`、`content_h5`、`content_h5_noimg`；MCP 转换层负责补齐这些字段。读取日记使用 `rike_list_notes` 与 `rike_get_note_detail`，写入使用 `rike_create_note`、`rike_update_note`，删除使用 `rike_delete_note`。接口依据：[提交日记](https://docapi.kairusi.com/web/#/14/733)。
+先用 `rike_list_resources` 获取日记本、模板、`template_cells` 格子标题和标签 UUID。日记单元格包含标题、内容和从 1 开始的排序；更新日记时保留现有单元格 UUID。写入 `note/commit` 时，`childs` 必须是 JSON 字符串，其中每项完整包含 `note_child_uuid`、`note_uuid`、`order_by`、`note_child_title`、`content`、`content_h5`、`content_h5_noimg`、`content_length`；MCP 转换层负责补齐这些字段。提交后 MCP 调用 `note/get_detail` 回读相同日记 UUID，并逐格核对 `content`，不允许仅凭 `note/commit` 的 200 响应报告成功。读取日记使用 `rike_list_notes` 与 `rike_get_note_detail`，写入使用 `rike_create_note`、`rike_update_note`，删除使用 `rike_delete_note`。接口依据：[提交日记](https://docapi.kairusi.com/web/#/14/733)。
 
 ## Todo
 
