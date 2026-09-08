@@ -17,7 +17,7 @@ from urllib.error import HTTPError, URLError
 from urllib.request import Request, urlopen
 
 DEFAULT_SERVER = "https://mcp.kairusi.com/mcp"
-SKILL_VERSION = "1.2.2"
+SKILL_VERSION = "1.2.3"
 CONFIG_DIR = Path(os.environ.get("KAIRUSI_SKILL_HOME", "~/.config/kairusi-skill")).expanduser()
 TOKEN_FILE = CONFIG_DIR / "token"
 SERVER_FILE = CONFIG_DIR / "server"

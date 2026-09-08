@@ -2,14 +2,14 @@
 name: kairusi
 description: 通过 Kairusi MCP 统一管理日刻日记、Todo 文件夹、清单和任务，读取已有标签为任务做场景化分类，以及管理日历日程。用户要记录或查看日记、整理或处理待办、查询或安排日程，或要求在这三个产品之间协同时使用。
 metadata:
-  version: "1.2.2"
+  version: "1.2.3"
 ---
 
 # Kairusi
 
 使用已连接的 Kairusi MCP 完成日记、任务和日程工作。Kairusi 将日刻、Todo 和日历收敛到一个连接中；工具按 `rike_`、`todo_`、`calendar_` 命名，必须先根据用户的真实目标选择正确命名空间。
 
-每次建立新的 MCP 连接后，先调用 `kairusi_get_version` 并传入 `skill_version: "1.2.2"`。若返回 `update_required: true`，告知用户更新 Skill；在版本满足最低要求前不要执行写入操作。不要把 MCP 服务版本误认为本地 Skill 版本。
+每次建立新的 MCP 连接后，先调用 `kairusi_get_version` 并传入 `skill_version: "1.2.3"`。若返回 `update_required: true`，告知用户更新 Skill；在版本满足最低要求前不要执行写入操作。不要把 MCP 服务版本误认为本地 Skill 版本。
 
 ## 连接与授权
 
